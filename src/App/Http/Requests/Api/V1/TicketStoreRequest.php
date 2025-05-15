@@ -29,7 +29,7 @@ class TicketStoreRequest extends FormRequest
     public function rules(UserRepoInterface $userRepo): array
     {
         return [
-            'sender_email' => ['required',Rule::exists($userRepo->getTable(),'email')],
+            'sender_identifier' => ['required',Rule::exists($userRepo->getTable(),$userRepo->getModel()->getRouteKeyName())],
             'status' => ['required',new Enum(TicketStatus::class)],
             'type' => ['required',new Enum(TicketType::class)],
             'subject' => ['required',new Enum(TicketSubject::class)],
@@ -43,7 +43,7 @@ class TicketStoreRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'sender_email' => $this->user()->email,
+            'sender_identifier' => $this->user()->getRouteKey(),
         ]);
     }
 }

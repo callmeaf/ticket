@@ -11,18 +11,21 @@ use Callmeaf\Base\App\Traits\Model\InteractsWithMedia;
 use Callmeaf\User\App\Repo\Contracts\UserRepoInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Ticket extends BaseModel implements HasMedia
 {
-     use SoftDeletes,HasType,HasDate,HasUlids,InteractsWithMedia,HasSearch;
+     use SoftDeletes,HasType,HasDate,InteractsWithMedia,HasSearch;
 
+     protected $primaryKey = 'ref_code';
+     protected $keyType = 'string';
+     public $incrementing = false;
     protected $fillable = [
-        'sender_email',
-        'receiver_email',
+        'ref_code',
+        'sender_identifier',
+        'receiver_identifier',
         'status',
         'type',
         'subject',
@@ -65,12 +68,12 @@ class Ticket extends BaseModel implements HasMedia
 
     public function scopeFromSender(Builder $query,mixed $value): void
     {
-        $query->where('sender_email',$value);
+        $query->where('sender_identifier',$value);
     }
 
     public function scopeToReceiver(Builder $query,mixed $value): void
     {
-        $query->where('receiver_email',$value);
+        $query->where('receiver_identifier',$value);
     }
 
     public function sender(): BelongsTo
@@ -79,7 +82,7 @@ class Ticket extends BaseModel implements HasMedia
          * @var UserRepoInterface $userRepo
          */
         $userRepo = app(UserRepoInterface::class);
-        return $this->belongsTo($userRepo->getModel()::class,'sender_email','email');
+        return $this->belongsTo($userRepo->getModel()::class,'sender_identifier',$userRepo->getModel()->getRouteKeyName());
     }
 
     public function receiver(): BelongsTo
@@ -88,7 +91,7 @@ class Ticket extends BaseModel implements HasMedia
          * @var UserRepoInterface $userRepo
          */
         $userRepo = app(UserRepoInterface::class);
-        return $this->belongsTo($userRepo->getModel()::class,'receiver_email','email');
+        return $this->belongsTo($userRepo->getModel()::class,'receiver_identifier',$userRepo->getModel()->getRouteKeyName());
     }
 
     public function senderIsSuperAdminOrAdmin(): bool
@@ -114,8 +117,10 @@ class Ticket extends BaseModel implements HasMedia
     public function isCreatedBy($user = null): bool
     {
         $user ??= Auth::user();
-
-        return $user?->email === $this->sender_email;
+        if(! $user) {
+            return false;
+        }
+        return $user->getRouteKey() === $this->sender_identifier;
     }
 
     public function mediaCollectionName(): string

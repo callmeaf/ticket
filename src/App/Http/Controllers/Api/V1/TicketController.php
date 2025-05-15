@@ -27,7 +27,7 @@ class TicketController extends ApiController implements HasMiddleware
      */
     public function index()
     {
-        return $this->ticketRepo->builder(fn(Builder $query) => $query->fromSender($this->request->user()->email))->latest()->search()->paginate();
+        return $this->ticketRepo->builder(fn(Builder $query) => $query->fromSender($this->request->user()->getRouteKey()))->latest()->search()->paginate();
     }
 
     /**

@@ -12,5 +12,5 @@ use Callmeaf\Ticket\App\Http\Resources\Api\V1\TicketResource;
  */
 interface TicketRepoInterface extends BaseRepoInterface
 {
-
+    public function newRefCode(): string;
 }

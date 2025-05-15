@@ -4,7 +4,7 @@ use Callmeaf\Base\App\Enums\RequestType;
 
 return [
     'model' => \Callmeaf\Ticket\App\Models\Ticket::class,
-    'route_key_name' => 'id',
+    'route_key_name' => 'ref_code',
     'repo' => \Callmeaf\Ticket\App\Repo\V1\TicketRepo::class,
     'resources' => [
         RequestType::API->value => [
@@ -184,4 +184,6 @@ return [
              'excel' => \Callmeaf\Ticket\App\Imports\Admin\V1\TicketsImport::class,
          ],
      ],
+    "ref_code_length" => 5,
+    "ref_code_prefix" => 'callmeaf-'
 ];

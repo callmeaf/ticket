@@ -24,9 +24,9 @@ class TicketResource extends JsonResource
          */
         $mediaRepo = app(MediaRepoInterface::class);
         return [
-            'id' => $this->id,
-            'sender_email' => $this->sender_email,
-            'receiver_email' => $this->receiver_email,
+            'ref_code' => $this->ref_code,
+            'sender_identifier' => $this->sender_identifier,
+            'receiver_identifier' => $this->receiver_identifier,
             'status' => $this->status,
             'status_text' => $this->statusText,
             'type' => $this->type,
