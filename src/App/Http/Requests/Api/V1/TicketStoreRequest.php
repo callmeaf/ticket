@@ -44,6 +44,7 @@ class TicketStoreRequest extends FormRequest
     {
         $this->merge([
             'sender_identifier' => $this->user()->getRouteKey(),
+            'status' => TicketStatus::WAITING_FOR_ADMIN->value,
         ]);
     }
 }
