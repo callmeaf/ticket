@@ -4,6 +4,7 @@ namespace Callmeaf\Ticket\App\Http\Resources\Admin\V1;
 
 use Callmeaf\Media\App\Repo\Contracts\MediaRepoInterface;
 use Callmeaf\Ticket\App\Models\Ticket;
+use Callmeaf\TicketReply\App\Repo\Contracts\TicketReplyRepoInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,6 +24,10 @@ class TicketResource extends JsonResource
          * @var MediaRepoInterface $mediaRepo
          */
         $mediaRepo = app(MediaRepoInterface::class);
+        /**
+         * @var TicketReplyRepoInterface $ticketReplyRepo
+         */
+        $ticketReplyRepo = app(TicketReplyRepoInterface::class);
         return [
             'ref_code' => $this->ref_code,
             'sender_identifier' => $this->sender_identifier,
@@ -41,7 +46,8 @@ class TicketResource extends JsonResource
             'updated_at_text' => $this->updatedAtText(),
             'deleted_at' => $this->deleted_at,
             'deleted_at_text' => $this->deletedAtText(),
-            'media' => $mediaRepo->toResourceCollection($this->whenLoaded('media'))
+            'attachments' => $mediaRepo->toResourceCollection($this->whenLoaded('attachments')),
+            'replies' => $ticketReplyRepo->toResourceCollection($this->whenLoaded('replies'))
         ];
     }
 }

@@ -8,10 +8,13 @@ use Callmeaf\Base\App\Traits\Model\HasDate;
 use Callmeaf\Base\App\Traits\Model\HasSearch;
 use Callmeaf\Base\App\Traits\Model\HasType;
 use Callmeaf\Base\App\Traits\Model\InteractsWithMedia;
+use Callmeaf\TicketReply\App\Repo\Contracts\TicketReplyRepoInterface;
 use Callmeaf\User\App\Repo\Contracts\UserRepoInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
@@ -94,6 +97,20 @@ class Ticket extends BaseModel implements HasMedia
         return $this->belongsTo($userRepo->getModel()::class,'receiver_identifier',$userRepo->getModel()->getRouteKeyName());
     }
 
+    public function attachments(): MorphMany
+    {
+        return $this->media()->where('collection_name',$this->mediaCollectionName());
+    }
+
+    public function replies(): HasMany
+    {
+        /**
+         * @var TicketReplyRepoInterface $ticketReplyRepo
+         */
+        $ticketReplyRepo = app(TicketReplyRepoInterface::class);
+        return $this->hasMany($ticketReplyRepo->getModel()::class,'ticket_ref_code');
+    }
+
     public function senderIsSuperAdminOrAdmin(): bool
     {
         return userIsSuperAdmin(user: $this->sender) || userIsAdmin(user: $this->sender);
@@ -125,7 +142,7 @@ class Ticket extends BaseModel implements HasMedia
 
     public function mediaCollectionName(): string
     {
-        return 'ticket';
+        return 'attachments';
     }
 
     public function mediaDiskName(): string

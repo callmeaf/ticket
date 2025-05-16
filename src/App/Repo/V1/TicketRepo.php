@@ -25,7 +25,7 @@ class TicketRepo extends BaseRepo implements TicketRepoInterface
         }
 
         return $this->toResource($ticket->resource->loadMissing([
-            'media'
+            'attachments'
         ]));
     }
 
@@ -43,7 +43,7 @@ class TicketRepo extends BaseRepo implements TicketRepoInterface
         }
 
         return $this->toResource($ticket->resource->loadMissing([
-            'media'
+            'attachments'
         ]));
     }
 

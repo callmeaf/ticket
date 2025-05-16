@@ -43,7 +43,7 @@ class TicketController extends ApiController implements HasMiddleware
      */
     public function show(string $id)
     {
-        return $this->ticketRepo->findById(value: $id);
+        return $this->ticketRepo->builder(fn(Builder $query) => $query->with(['attachments','replies.attachments']))->findById(value: $id);
     }
 
     /**
