@@ -154,11 +154,12 @@ class Ticket extends BaseModel implements HasMedia
     {
         return [
             [
+               //
+            ],
+            [
                 'status' => 'status',
                 'type' => 'type',
                 'subject' => 'subject',
-            ],
-            [
                 'created_from' => 'created_at',
                 'created_to' => 'created_at',
             ],
