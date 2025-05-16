@@ -2,6 +2,7 @@
 
 namespace Callmeaf\Ticket\App\Http\Resources\Api\V1;
 
+use Callmeaf\Base\App\Enums\DateTimeFormat;
 use Callmeaf\Media\App\Repo\Contracts\MediaRepoInterface;
 use Callmeaf\Ticket\App\Models\Ticket;
 use Callmeaf\TicketReply\App\Repo\Contracts\TicketReplyRepoInterface;
@@ -40,9 +41,9 @@ class TicketResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'created_at' => $this->created_at,
-            'created_at_text' => $this->createdAtText(),
+            'created_at_text' => $this->createdAtText(DateTimeFormat::DATE_TIME),
             'updated_at' => $this->updated_at,
-            'updated_at_text' => $this->updatedAtText(),
+            'updated_at_text' => $this->updatedAtText(DateTimeFormat::DATE_TIME),
             'deleted_at' => $this->deleted_at,
             'deleted_at_text' => $this->deletedAtText(),
             'attachments' => $mediaRepo->toResourceCollection($this->whenLoaded('attachments')),
