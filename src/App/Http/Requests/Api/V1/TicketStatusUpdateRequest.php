@@ -2,7 +2,10 @@
 
 namespace Callmeaf\Ticket\App\Http\Requests\Api\V1;
 
+use Callmeaf\Ticket\App\Enums\TicketStatus;
+use Callmeaf\Ticket\App\Repo\Contracts\TicketRepoInterface;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class TicketStatusUpdateRequest extends FormRequest
 {
@@ -11,7 +14,14 @@ class TicketStatusUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        /**
+         * @var TicketRepoInterface $ticketRepo
+         */
+        $ticketRepo = app(TicketRepoInterface::class);
+        $ticket = $ticketRepo->findById($this->route('ticket'));
+
+        $status = $this->get('status');
+        return $ticket->resource->isCreatedBy(user: $this->user()) && ($status === TicketStatus::ARCHIVED || $status === TicketStatus::CLOSED);
     }
 
     /**
@@ -22,7 +32,7 @@ class TicketStatusUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'status' => ['required',new Enum(TicketStatus::class)],
         ];
     }
 }
