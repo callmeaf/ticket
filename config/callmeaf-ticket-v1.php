@@ -84,7 +84,7 @@ return [
                 // listeners
             ],
             \Callmeaf\Ticket\App\Events\Admin\V1\TicketStatusUpdated::class => [
-                // listeners
+                \Callmeaf\Ticket\App\Listeners\Admin\V1\ChangeTicketStatusManually::class,
             ],
             \Callmeaf\Ticket\App\Events\Admin\V1\TicketTypeUpdated::class => [
                 // listeners
