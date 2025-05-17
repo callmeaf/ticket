@@ -190,7 +190,7 @@ class Ticket extends BaseModel implements HasMedia
     {
         return [
             [
-               //
+               'ref_code' => 'ref_code'
             ],
             [
                 'status' => 'status',
