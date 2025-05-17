@@ -21,7 +21,7 @@ class TicketStatusUpdateRequest extends FormRequest
         $ticket = $ticketRepo->findById($this->route('ticket'));
 
         $status = $this->get('status');
-        return $ticket->resource->isCreatedBy(user: $this->user()) && ($status === TicketStatus::ARCHIVED || $status === TicketStatus::CLOSED);
+        return $ticket->resource->isCreatedBy(user: $this->user()) && ($status === TicketStatus::ARCHIVED->value || $status === TicketStatus::CLOSED->value);
     }
 
     /**
