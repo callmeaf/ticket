@@ -144,7 +144,7 @@ class Ticket extends BaseModel implements HasMedia
 
     public function canAnswer(): bool
     {
-        $status = $this->statuc;
+        $status = $this->status;
         return $status != TicketStatus::CLOSED && $status != TicketStatus::ARCHIVED;
     }
 
