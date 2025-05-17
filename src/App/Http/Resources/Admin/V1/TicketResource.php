@@ -48,7 +48,8 @@ class TicketResource extends JsonResource
             'deleted_at' => $this->deleted_at,
             'deleted_at_text' => $this->deletedAtText(),
             'attachments' => $mediaRepo->toResourceCollection($this->whenLoaded('attachments')),
-            'replies' => $ticketReplyRepo->toResourceCollection($this->whenLoaded('replies'))
+            'replies' => $ticketReplyRepo->toResourceCollection($this->whenLoaded('replies')),
+            'can_answer' => $this->canAnswer(),
         ];
     }
 }
