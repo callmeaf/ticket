@@ -150,6 +150,34 @@ class Ticket extends BaseModel implements HasMedia
         return 'tickets';
     }
 
+    public function maskedReceiverIdentifier(): Attribute
+    {
+        return Attribute::get(
+            function() {
+                $value = $this->receiver_identifier;
+                if(userIsSuperAdmin() || request()->query('restrict_key') === \Base::config('restrict_route_middleware_key')) {
+                    return $value;
+                }
+
+                return str($value)->mask('*',-15,5)->toString();
+            }
+        );
+    }
+
+    public function maskedSenderIdentifier(): Attribute
+    {
+        return Attribute::get(
+            function() {
+                $value = $this->sender_identifier;
+                if(userIsSuperAdmin() || request()->query('restrict_key') === \Base::config('restrict_route_middleware_key')) {
+                    return $value;
+                }
+
+                return str($value)->mask('*',-15,5)->toString();
+            }
+        );
+    }
+
     public function searchParams(): array
     {
         return [
