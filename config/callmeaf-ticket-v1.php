@@ -26,7 +26,7 @@ return [
                 // listeners
             ],
             \Callmeaf\Ticket\App\Events\Api\V1\TicketCreated::class => [
-                // listeners
+                \Callmeaf\Ticket\App\Listeners\Api\V1\NotifyCreatorTicket::class,
             ],
             \Callmeaf\Ticket\App\Events\Api\V1\TicketShowed::class => [
                 // listeners
