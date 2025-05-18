@@ -8,7 +8,7 @@ use Callmeaf\Base\App\Traits\Model\HasDate;
 use Callmeaf\Base\App\Traits\Model\HasSearch;
 use Callmeaf\Base\App\Traits\Model\HasStatus;
 use Callmeaf\Base\App\Traits\Model\HasType;
-use Callmeaf\Base\App\Traits\Model\InteractsWithMedia;
+use Callmeaf\Media\App\Traits\InteractsWithMedia;
 use Callmeaf\Ticket\App\Enums\TicketStatus;
 use Callmeaf\TicketReply\App\Repo\Contracts\TicketReplyRepoInterface;
 use Callmeaf\User\App\Repo\Contracts\UserRepoInterface;
