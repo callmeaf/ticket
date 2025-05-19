@@ -8,6 +8,7 @@ use Callmeaf\Base\App\Traits\Model\HasDate;
 use Callmeaf\Base\App\Traits\Model\HasSearch;
 use Callmeaf\Base\App\Traits\Model\HasStatus;
 use Callmeaf\Base\App\Traits\Model\HasType;
+use Callmeaf\Log\App\Traits\LogsActivity;
 use Callmeaf\Media\App\Traits\InteractsWithMedia;
 use Callmeaf\Ticket\App\Enums\TicketStatus;
 use Callmeaf\TicketReply\App\Repo\Contracts\TicketReplyRepoInterface;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Ticket extends BaseModel implements HasMedia
 {
-     use SoftDeletes,HasType,HasDate,InteractsWithMedia,HasSearch,HasStatus;
+     use SoftDeletes,HasType,HasDate,InteractsWithMedia,HasSearch,HasStatus,LogsActivity;
 
      protected $primaryKey = 'ref_code';
      protected $keyType = 'string';
