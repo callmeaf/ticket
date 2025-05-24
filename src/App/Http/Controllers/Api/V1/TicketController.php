@@ -45,8 +45,8 @@ class TicketController extends ApiController implements HasMiddleware
     public function show(string $id)
     {
         return $this->ticketRepo->builder(fn(Builder $query) => $query->with([
-            'sender' => fn(BelongsTo $query) => $query->select(['id','email'])->with(['image']),
-            'receiver' => fn(BelongsTo $query) => $query->select(['id','email'])->with(['image']),
+            'sender' => fn(BelongsTo $query) => $query->select(['id','email','first_name','last_name'])->with(['image']),
+            'receiver' => fn(BelongsTo $query) => $query->select(['id','email','first_name','last_name'])->with(['image']),
             'attachments',
             'replies.attachments'
         ]))->findById(value: $id);
