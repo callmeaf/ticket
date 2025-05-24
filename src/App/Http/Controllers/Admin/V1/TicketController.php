@@ -5,6 +5,7 @@ namespace Callmeaf\Ticket\App\Http\Controllers\Admin\V1;
 use Callmeaf\Base\App\Http\Controllers\Admin\V1\AdminController;
 use Callmeaf\Ticket\App\Repo\Contracts\TicketRepoInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -43,7 +44,12 @@ class TicketController extends AdminController implements HasMiddleware
      */
     public function show(string $id)
     {
-        return $this->ticketRepo->builder(fn(Builder $query) => $query->with(['attachments','replies.attachments']))->findById(value: $id);
+        return $this->ticketRepo->builder(fn(Builder $query) => $query->with([
+            'sender' => fn(BelongsTo $query) => $query->select(['id','email'])->with(['image']),
+            'receiver' => fn(BelongsTo $query) => $query->select(['id','email'])->with(['image']),
+            'attachments',
+            'replies.attachments'
+        ]))->findById(value: $id);
     }
 
     /**

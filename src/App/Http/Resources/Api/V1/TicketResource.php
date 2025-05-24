@@ -6,6 +6,7 @@ use Callmeaf\Base\App\Enums\DateTimeFormat;
 use Callmeaf\Media\App\Repo\Contracts\MediaRepoInterface;
 use Callmeaf\Ticket\App\Models\Ticket;
 use Callmeaf\TicketReply\App\Repo\Contracts\TicketReplyRepoInterface;
+use Callmeaf\User\App\Repo\Contracts\UserRepoInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,6 +30,11 @@ class TicketResource extends JsonResource
          * @var TicketReplyRepoInterface $ticketReplyRepo
          */
         $ticketReplyRepo = app(TicketReplyRepoInterface::class);
+
+        /**
+         * @var UserRepoInterface $userRepo
+         */
+        $userRepo = app(UserRepoInterface::class);
         return [
             'ref_code' => $this->ref_code,
             'sender_identifier' => $this->sender_identifier,
@@ -49,6 +55,8 @@ class TicketResource extends JsonResource
             'attachments' => $mediaRepo->toResourceCollection($this->whenLoaded('attachments')),
             'replies' => $ticketReplyRepo->toResourceCollection($this->whenLoaded('replies')),
             'can_answer' => $this->canAnswer(),
+            'sender' => $userRepo->toResource($this->whenLoaded('sender')),
+            'receiver' => $userRepo->toResource($this->whenLoaded('receiver')),
         ];
     }
 }
