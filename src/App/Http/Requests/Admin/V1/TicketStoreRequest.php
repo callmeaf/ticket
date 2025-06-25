@@ -44,7 +44,7 @@ class TicketStoreRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'sender_identifier' => $this->user()->getRouteKey(),
+            'sender_identifier' => $this->user()->identifier(),
         ]);
     }
 }

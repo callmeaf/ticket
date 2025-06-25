@@ -43,7 +43,7 @@ class TicketStoreRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'sender_identifier' => $this->user()->getRouteKey(),
+            'sender_identifier' => $this->user()->identifier(),
             'status' => TicketStatus::WAITING_FOR_ADMIN->value,
         ]);
     }

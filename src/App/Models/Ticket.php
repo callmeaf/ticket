@@ -140,7 +140,7 @@ class Ticket extends BaseModel implements HasMedia
         if(! $user) {
             return false;
         }
-        return $user->getRouteKey() === $this->sender_identifier;
+        return $user->identifier() === $this->sender_identifier;
     }
 
     public function canAnswer(): bool
