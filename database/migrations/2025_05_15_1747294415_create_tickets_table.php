@@ -18,10 +18,10 @@ return new class extends Migration
              */
             $userRepo = app(\Callmeaf\User\App\Repo\Contracts\UserRepoInterface::class);
             $table->string('sender_identifier')->nullable();
-            $table->foreign('sender_identifier')->references($userRepo->getModel()->getRouteKeyName())->on($userRepo->getTable())->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('sender_identifier')->references($userRepo->getModel()->identifierKey())->on($userRepo->getTable())->cascadeOnUpdate()->nullOnDelete();
 
             $table->string('receiver_identifier')->nullable();
-            $table->foreign('receiver_identifier')->references($userRepo->getModel()->getRouteKeyName())->on($userRepo->getTable())->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('receiver_identifier')->references($userRepo->getModel()->identifierKey())->on($userRepo->getTable())->cascadeOnUpdate()->nullOnDelete();
 
             $table->string('status')->index();
             $table->string('type')->index();

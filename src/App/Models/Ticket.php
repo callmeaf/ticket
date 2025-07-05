@@ -88,7 +88,7 @@ class Ticket extends BaseModel implements HasMedia
          * @var UserRepoInterface $userRepo
          */
         $userRepo = app(UserRepoInterface::class);
-        return $this->belongsTo($userRepo->getModel()::class,'sender_identifier',$userRepo->getModel()->getRouteKeyName());
+        return $this->belongsTo($userRepo->getModel()::class,'sender_identifier',$userRepo->getModel()->identifierKey());
     }
 
     public function receiver(): BelongsTo
@@ -97,7 +97,7 @@ class Ticket extends BaseModel implements HasMedia
          * @var UserRepoInterface $userRepo
          */
         $userRepo = app(UserRepoInterface::class);
-        return $this->belongsTo($userRepo->getModel()::class,'receiver_identifier',$userRepo->getModel()->getRouteKeyName());
+        return $this->belongsTo($userRepo->getModel()::class,'receiver_identifier',$userRepo->getModel()->identifierKey());
     }
 
     public function attachments(): MorphMany

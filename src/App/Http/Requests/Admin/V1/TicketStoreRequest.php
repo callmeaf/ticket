@@ -29,8 +29,8 @@ class TicketStoreRequest extends FormRequest
     public function rules(UserRepoInterface $userRepo): array
     {
         return [
-            'receiver_identifier' => ['required',Rule::exists($userRepo->getTable(),$userRepo->getModel()->getRouteKeyName())],
-            'sender_identifier' => ['required',Rule::exists($userRepo->getTable(),$userRepo->getModel()->getRouteKeyName())],
+            'receiver_identifier' => ['required',Rule::exists($userRepo->getTable(),$userRepo->getModel()->identifierKey())],
+            'sender_identifier' => ['required',Rule::exists($userRepo->getTable(),$userRepo->getModel()->identifierKey())],
             'status' => ['required',new Enum(TicketStatus::class)],
             'type' => ['required',new Enum(TicketType::class)],
             'subject' => ['required',new Enum(TicketSubject::class)],
